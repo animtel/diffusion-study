@@ -35,3 +35,6 @@ sdiffusion bash
 - [Generating images with Stable Diffusion](https://blog.paperspace.com/generating-images-with-stable-diffusion/)
 - [Stable Diffusion Models](https://rentry.org/sdmodels#stable-diffusion-models)
 - [DreamFusion: Text-to-3D using 2D Diffusion](https://dreamfusion3d.github.io/)
+- [High-Resolution Image Synthesis with Latent Diffusion Models](https://arxiv.org/abs/2112.10752) | [GitHub](https://github.com/CompVis/latent-diffusion)
+- [Denoising Diffusion Probabilistic Models](https://arxiv.org/abs/2006.11239)
+- [Improved Denoising Diffusion Probabilistic Models](https://arxiv.org/abs/2102.09672)
