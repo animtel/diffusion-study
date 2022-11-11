@@ -13,6 +13,7 @@ class VanillaVAE(nn.Module):
     def __init__(self,
                  in_channels: int,
                  latent_dim: int,
+                 out_channels: int = 3,
                  hidden_dims: List = None,
                  **kwargs) -> None:
         super(VanillaVAE, self).__init__()
@@ -37,6 +38,9 @@ class VanillaVAE(nn.Module):
         self.encoder = nn.Sequential(*modules)
         self.fc_mu = nn.Linear(hidden_dims[-1]*4, latent_dim)
         self.fc_var = nn.Linear(hidden_dims[-1]*4, latent_dim)
+        
+        # self.fc_mu = nn.Linear(hidden_dims[-1], latent_dim)
+        # self.fc_var = nn.Linear(hidden_dims[-1], latent_dim)
 
 
         # Build Decoder
@@ -72,7 +76,7 @@ class VanillaVAE(nn.Module):
                                                output_padding=1),
                             nn.BatchNorm2d(hidden_dims[-1]),
                             nn.LeakyReLU(),
-                            nn.Conv2d(hidden_dims[-1], out_channels= 3,
+                            nn.Conv2d(hidden_dims[-1], out_channels=out_channels,
                                       kernel_size= 3, padding= 1),
                             nn.Tanh())
 
@@ -85,6 +89,8 @@ class VanillaVAE(nn.Module):
         """
         result = self.encoder(input)
         result = torch.flatten(result, start_dim=1)
+        
+        print("encode result shape:", result.shape)
 
         # Split the result into mu and var components
         # of the latent Gaussian distribution
