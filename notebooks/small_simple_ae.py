@@ -128,28 +128,23 @@ class UpBlock(nn.Sequential):
 
 
 class SimpleAE(nn.Module):
-    def __init__(self, in_channels, filters, n_res_blocks=9, d_latent=64):
+    def __init__(self, in_channels, filters, n_res_blocks=8, d_latent=64):
         super().__init__()
         self.n_res_blocks = n_res_blocks
         self.d_latent = d_latent
         self.down = nn.Sequential(
             DownBlock(in_channels, filters),
-            DownBlock(filters, filters*2),
-            DownBlock(filters*2, filters*4))
-        self.residuals = nn.ModuleList([ResBlock(filters*4) for _ in range(self.n_res_blocks)])
-        self.adains = nn.ModuleList([AdaIN(filters*4, self.d_latent) for _ in range(self.n_res_blocks)])
+            DownBlock(filters, filters*2))
+        self.residuals = nn.ModuleList([ResBlock(filters*2) for _ in range(self.n_res_blocks)])
         self.up = nn.Sequential(
-            UpBlock(filters*4, filters*2),
             UpBlock(filters*2, filters),
             UpBlock(filters, filters),
             nn.Conv2d(filters, in_channels, 3, 1, 1),
             )
-        
-        self.timestep_map = nn.Linear(1, 1)
+        self.adains = nn.ModuleList([AdaIN(filters*2, self.d_latent) for _ in range(self.n_res_blocks)])
 
     def forward(self, img, t):
         emb = self.down(img)
-        t = self.timestep_map(t)
         for i in range(self.n_res_blocks):
             emb = self.residuals[i](emb)
             emb = self.adains[i](emb, t)

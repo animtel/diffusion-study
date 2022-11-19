@@ -38,3 +38,8 @@ sdiffusion bash
 - [High-Resolution Image Synthesis with Latent Diffusion Models](https://arxiv.org/abs/2112.10752) | [GitHub](https://github.com/CompVis/latent-diffusion)
 - [Denoising Diffusion Probabilistic Models](https://arxiv.org/abs/2006.11239)
 - [Improved Denoising Diffusion Probabilistic Models](https://arxiv.org/abs/2102.09672)
+
+---
+### Datasets
+
+- DDPM(Denoising Diffusion Probabilistic Models) was trained on [MNIST](https://pytorch.org/vision/stable/generated/torchvision.datasets.MNIST.html) and [Anime Face Dataset](https://www.kaggle.com/datasets/splcher/animefacedataset)

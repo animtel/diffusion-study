@@ -72,14 +72,6 @@ class ResidualLayer(nn.Module):
     def forward(self, input: Tensor) -> Tensor:
         return input + self.resblock(input)
 
-class Sine(nn.Module):
-    def __init(self):
-        super().__init__()
-
-    def forward(self, input):
-        # See paper sec. 3.2, final paragraph, and supplement Sec. 1.5 for discussion of factor 30
-        return torch.sin(30 * input)
-    
 class AdaIN(nn.Module):
     def __init__(self, channels, latent_size):
         super().__init__()
@@ -118,7 +110,7 @@ class VQVAE(nn.Module):
         modules = []
         if hidden_dims is None:
             hidden_dims = [128, 256]
-            
+
         # Build Encoder
         for h_dim in hidden_dims:
             modules.append(
@@ -136,18 +128,8 @@ class VQVAE(nn.Module):
                 nn.LeakyReLU())
         )
 
-        self.encoder_before_residual = nn.Sequential(*modules)
-        residual_modules = []
-        adain_modules = []
-        
         for _ in range(6):
-            residual_modules.append(ResidualLayer(in_channels, in_channels))
-            adain_modules.append(AdaIN(in_channels, 64))
-        
-        self.residual_modules = nn.ModuleList(residual_modules)
-        self.adain_modules = nn.ModuleList(adain_modules)
-        
-        modules = []
+            modules.append(ResidualLayer(in_channels, in_channels))
         modules.append(nn.LeakyReLU())
 
         modules.append(
@@ -157,7 +139,7 @@ class VQVAE(nn.Module):
                 nn.LeakyReLU())
         )
 
-        self.encoder_after_residual = nn.Sequential(*modules)
+        self.encoder = nn.Sequential(*modules)
 
         self.vq_layer = VectorQuantizer(num_embeddings,
                                         embedding_dim,
@@ -203,20 +185,14 @@ class VQVAE(nn.Module):
 
         self.decoder = nn.Sequential(*modules)
 
-    def encode(self, input: Tensor, t: Tensor) -> List[Tensor]:
+    def encode(self, input: Tensor) -> List[Tensor]:
         """
         Encodes the input by passing through the encoder network
         and returns the latent codes.
         :param input: (Tensor) Input tensor to encoder [N x C x H x W]
         :return: (Tensor) List of latent codes
         """
-        result = self.encoder_before_residual(input)
-        
-        for i in range(len(self.residual_modules)):
-            result = self.residual_modules[i](result)
-            result = self.adain_modules[i](result, t)
-        
-        result = self.encoder_after_residual(result)
+        result = self.encoder(input)
         return [result]
 
     def decode(self, z: Tensor) -> Tensor:
@@ -230,14 +206,12 @@ class VQVAE(nn.Module):
         result = self.decoder(z)
         return result
 
-    def forward(self, input: Tensor, t: Tensor, **kwargs) -> List[Tensor]:
-        encoding = self.encode(input, t)[0]
+    def forward(self, input: Tensor, **kwargs) -> List[Tensor]:
+        encoding = self.encode(input)[0]
+        print(encoding.shape)
         quantized_inputs, vq_loss = self.vq_layer(encoding)
+        print(quantized_inputs.shape)
         return [self.decode(quantized_inputs), input, vq_loss]
-    
-    # def forward(self, input: Tensor, t: Tensor, **kwargs) -> List[Tensor]:
-    #     encoding = self.encode(input, t)[0]
-    #     return [self.decode(quantized_inputs), input, None]
 
     def loss_function(self,
                       *args,
