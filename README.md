@@ -1,4 +1,4 @@
-# small-diffusion
+# diffusion-study
 Custom implementation of iterative image diffusion process
 
 ### Build & Run docker
