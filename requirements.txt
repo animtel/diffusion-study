@@ -10,6 +10,7 @@ torch==1.11.0
 torchelastic==0.2.2
 torchtext==0.12.0
 torchvision==0.12.0
+hydra-core==1.1.2
 wandb==0.12.17
 numpy-quaternion>=2021.11.4.15.26.3
 click>=8.0
@@ -20,6 +21,8 @@ glfw==2.2.0
 imageio==2.9.0
 imageio-ffmpeg==0.4.3
 ninja==1.10.2
+prettytable==3.5.0
+git+https://github.com/openai/CLIP.git@40f5484c1c74edd83cb9cf687c6ab92b28d8b656
 pyspng
 psutil
 mrcfile
