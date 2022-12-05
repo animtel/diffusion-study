@@ -38,6 +38,9 @@ sdiffusion bash
 - [High-Resolution Image Synthesis with Latent Diffusion Models](https://arxiv.org/abs/2112.10752) | [GitHub](https://github.com/CompVis/latent-diffusion)
 - [Denoising Diffusion Probabilistic Models](https://arxiv.org/abs/2006.11239)
 - [Improved Denoising Diffusion Probabilistic Models](https://arxiv.org/abs/2102.09672)
+- [DiffRF: Rendering-guided 3D Radiance Field Diffusion](https://sirwyver.github.io/DiffRF/)
+- [3D Neural Field Generation using Triplane Diffusion](https://jryanshue.com/nfd/)
+- [Hugging Face Diffusion Models Course](https://github.com/huggingface/diffusion-models-class)
 
 ---
 ### Datasets
