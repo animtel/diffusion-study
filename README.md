@@ -41,6 +41,7 @@ sdiffusion bash
 - [DiffRF: Rendering-guided 3D Radiance Field Diffusion](https://sirwyver.github.io/DiffRF/)
 - [3D Neural Field Generation using Triplane Diffusion](https://jryanshue.com/nfd/)
 - [Hugging Face Diffusion Models Course](https://github.com/huggingface/diffusion-models-class)
+- [Diffusion samplers easy to use implementations](https://github.com/ozanciga/diffusion-for-beginners)
 
 ---
 ### Datasets
