@@ -29,3 +29,11 @@ mrcfile
 tensorboard
 moviepy
 kornia 
+
+#--- fast.ai course requirements:
+
+fastai
+diffusers
+transformers
+huggingface-hub
+accelerate==0.15.0
